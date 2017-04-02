@@ -1,9 +1,16 @@
 lazy val commonSettings = Seq(
   organization := "com.dwolla",
   homepage := Option(url("https://github.com/Dwolla/akka-memory-usage-logger")),
+  licenses += ("MIT", url("http://opensource.org/licenses/MIT")),
   scalaVersion := "2.12.1",
   crossScalaVersions := Seq("2.12.1", "2.11.8"),
-  scalacOptions := Seq("-feature", "-deprecation")
+  scalacOptions := Seq("-feature", "-deprecation"),
+  releaseVersionBump := sbtrelease.Version.Bump.Minor,
+  releaseCommitMessage :=
+    s"""${releaseCommitMessage.value}
+       |
+       |[ci skip]""".stripMargin,
+  releaseCrossBuild := true
 )
 
 lazy val bintraySettings = Seq(
@@ -17,7 +24,6 @@ lazy val bintraySettings = Seq(
 lazy val akkaMemoryUsageLogger = (project in file("."))
   .settings(
     name := "akka-memory-usage-logger",
-    version := "1.0-SNAPSHOT",
     resolvers ++= Seq(
       Resolver.bintrayIvyRepo("dwolla", "maven")
     ),
