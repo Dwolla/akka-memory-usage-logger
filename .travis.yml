@@ -11,3 +11,17 @@ before_script:
   - jdk_switcher use $JDK
 
 script: sbt ++$TRAVIS_SCALA_VERSION test
+
+before_deploy:
+  - mkdir -p $HOME/.bintray $HOME/.ssh
+  - openssl aes-256-cbc -K $encrypted_2c15e33f9db2_key -iv $encrypted_2c15e33f9db2_iv -in secrets.tgz.enc -out secrets.tgz -d
+  - tar -xzOf secrets.tgz credentials > $HOME/.bintray/.credentials
+  - tar -xzOf secrets.tgz release-key > $HOME/.ssh/id_rsa
+  - rm secrets.tgz
+
+deploy:
+  - provider: script
+    script: .travis/release.sh
+    on:
+      branch: master
+      scala: 2.12.1
