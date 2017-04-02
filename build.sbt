@@ -17,7 +17,6 @@ lazy val bintraySettings = Seq(
 lazy val akkaMemoryUsageLogger = (project in file("."))
   .settings(
     name := "akka-memory-usage-logger",
-    version := "1.0-SNAPSHOT",
     resolvers ++= Seq(
       Resolver.bintrayIvyRepo("dwolla", "maven")
     ),
@@ -36,3 +35,5 @@ lazy val akkaMemoryUsageLogger = (project in file("."))
     }
   )
   .settings(commonSettings ++ bintraySettings: _*)
+
+releaseVersionBump := sbtrelease.Version.Bump.Minor
