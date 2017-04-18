@@ -2,16 +2,16 @@ package com.dwolla.akka.memorylogger
 
 import java.lang.management.{ManagementFactory, MemoryPoolMXBean}
 
-import scala.collection.JavaConverters._
 import akka.actor.{Actor, ActorLogging, Props}
 import com.dwolla.akka.memorylogger.MemoryUsageLoggingActor.{MemoryPoolMX, WriteMemoryUsageToLog}
 import org.json4s.DefaultFormats
 import org.json4s.native.Serialization.write
 
+import scala.collection.JavaConverters._
 import scala.concurrent.duration._
 import scala.language.{implicitConversions, postfixOps}
 
-class MemoryUsageLoggingActor extends Actor with ActorLogging {
+class MemoryUsageLoggingActor(pollingPeriod: FiniteDuration) extends Actor with ActorLogging {
   implicit val formats = DefaultFormats
   import context.dispatcher
   lazy val mBeans: Seq[MemoryPoolMXBean] = ManagementFactory.getMemoryPoolMXBeans.asScala
@@ -30,11 +30,11 @@ class MemoryUsageLoggingActor extends Actor with ActorLogging {
       }
   }
 
-  protected def scheduleWriteMemoryUsageToLog(): Unit = context.system.scheduler.schedule(0 seconds, 30 seconds, self, WriteMemoryUsageToLog)
+  protected def scheduleWriteMemoryUsageToLog(): Unit = context.system.scheduler.schedule(0 seconds, pollingPeriod, self, WriteMemoryUsageToLog)
 }
 
 object MemoryUsageLoggingActor {
-  def apply(): Props = Props(classOf[MemoryUsageLoggingActor])
+  def apply(pollingPeriod: FiniteDuration): Props = Props(classOf[MemoryUsageLoggingActor], pollingPeriod)
 
   case object WriteMemoryUsageToLog
 

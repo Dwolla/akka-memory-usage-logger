@@ -7,3 +7,5 @@
 Akka extension that logs the current values of `ManagementFactory.getMemoryPoolMXBeans` every 30 seconds.
 
 If the extension is on the classpath, it will be enabled.
+
+The polling period can be overridden by setting the config value `memoryUsageLogging.polling-period` to a positive integer, or disabled by setting it to `0`.
