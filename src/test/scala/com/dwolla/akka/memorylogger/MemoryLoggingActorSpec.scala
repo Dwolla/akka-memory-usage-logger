@@ -5,7 +5,7 @@ import java.lang.management.{MemoryPoolMXBean, MemoryType}
 
 import akka.actor.Props
 import akka.testkit.EventFilter.info
-import akka.testkit.{EventFilter, TestActorRef}
+import akka.testkit.TestActorRef
 import com.dwolla.akka.memorylogger.MemoryUsageLoggingActor.{MemoryPoolMX, MemoryUsage, WriteMemoryUsageToLog}
 import com.dwolla.testutils.akka.AkkaTestKitSpecs2Support
 import com.dwolla.testutils.concurrency.PromiseMatchers.beCompleted
@@ -14,6 +14,7 @@ import org.specs2.mock.Mockito
 import org.specs2.mutable.Specification
 
 import scala.concurrent.Promise
+import scala.concurrent.duration._
 
 class MemoryLoggingActorSpec(implicit ee: ExecutionEnv) extends Specification with Mockito {
 
@@ -24,7 +25,7 @@ class MemoryLoggingActorSpec(implicit ee: ExecutionEnv) extends Specification wi
 
     val promisedScheduleWriteMemoryUsageToLog = Promise[Unit]
 
-    class MockedMemoryLoggingActor extends MemoryUsageLoggingActor {
+    class MockedMemoryLoggingActor extends MemoryUsageLoggingActor(5 second span) {
       override lazy val mBeans: Seq[MemoryPoolMXBean] = mockMxBeans
 
       override protected def scheduleWriteMemoryUsageToLog(): Unit = promisedScheduleWriteMemoryUsageToLog.success(())

@@ -17,7 +17,7 @@ git clean -dxf
 git checkout master
 git branch --set-upstream-to=release/master
 
-MASTER=`git rev-parse HEAD`
+MASTER=$(git rev-parse HEAD)
 if [ "$TRAVIS_COMMIT" != "$MASTER" ]; then
   echo "Checking out master set HEAD to $MASTER, but Travis was building $TRAVIS_COMMIT, so refusing to continue."
   exit 0
