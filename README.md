@@ -1,7 +1,9 @@
+**This project will no longer be available after [Bintray shuts down on May 1, 2021](https://jfrog.com/blog/into-the-sunset-bintray-jcenter-gocenter-and-chartcenter/).**
+
+If there is interest in getting it published to Maven Central, please open an issue.
+
 # Akka Memory Usage Logger
 
-[![Travis](https://img.shields.io/travis/Dwolla/akka-memory-usage-logger.svg?style=flat-square)](https://travis-ci.org/Dwolla/akka-memory-usage-logger)
-[![Bintray](https://img.shields.io/bintray/v/dwolla/maven/akka-memory-usage-logger.svg?style=flat-square)](https://bintray.com/dwolla/maven/akka-memory-usage-logger/view)
 [![license](https://img.shields.io/github/license/Dwolla/akka-memory-usage-logger.svg?style=flat-square)]()
 
 Akka extension that logs the current values of `ManagementFactory.getMemoryPoolMXBeans` every 30 seconds.
